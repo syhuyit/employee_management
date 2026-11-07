@@ -1,0 +1,24 @@
+# Thay USER_A, USER_B... bằng GitHub username thực của thành viên
+/models/employee.py              @USER_A
+/models/fulltime.py              @USER_A
+/models/parttime.py              @USER_A
+/models/factory.py               @USER_A
+/utils/validators.py             @USER_A
+/models/department.py            @USER_B
+/services/department_service.py  @USER_B
+/ui/handlers/department_handler.py @USER_B
+/services/employee_manager.py    @USER_C
+/ui/handlers/crud_handler.py     @USER_C
+/utils/input_helper.py           @USER_C
+/services/search_service.py      @USER_D
+/services/sort_service.py        @USER_D
+/utils/formatter.py              @USER_D
+/ui/handlers/search_sort_handler.py @USER_D
+/services/report_service.py      @USER_E
+/storage/file_storage.py         @USER_E
+/ui/handlers/report_handler.py   @USER_E
+/ui/handlers/extension_handler.py @USER_E
+/docs/uml/                       @USER_F
+/docs/report/                    @USER_F
+/docs/screenshots/               @USER_F
+*                                @USER_LEAD

@@ -1,0 +1,1 @@
+# Không cần thư viện ngoài. Chương trình chỉ dùng thư viện chuẩn Python.
