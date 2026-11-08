@@ -1,0 +1,56 @@
+@startuml activity_diagram_main_menu
+title Lưu đồ hoạt động Menu chính (Main Menu Flowchart)
+
+start
+:Khởi động chương trình (main.py);
+:Cấu hình hiển thị UTF-8;
+:Khởi tạo AppContext (EmployeeManager, DepartmentService, FileStorage);
+
+:Tải dữ liệu từ FileStorage.load();
+if (Tải thành công?) then (Có)
+    :Nạp danh sách phòng ban vào DepartmentService;
+    :Nạp danh sách nhân viên vào EmployeeManager;
+else (Lỗi StorageError)
+    :In cảnh báo lỗi, khởi tạo danh sách rỗng;
+endif
+
+if (Có tham số --seed VÀ danh sách NV rỗng?) then (Đúng)
+    :Gọi seed_sample_data(ctx);
+    :In "Đã nạp dữ liệu mẫu.";
+endif
+
+while (Người dùng chưa chọn thoát?) is (Đang chạy)
+    :In Menu chính (12 chức năng + mục 0);
+    :Nhập lựa chọn từ bàn phím;
+    
+    if (Lựa chọn == "0"?) then (Đúng)
+        :Hỏi xác nhận thoát confirm("Bạn có chắc muốn thoát?");
+        if (Đồng ý 'y'?) then (Có)
+            :In "Tạm biệt!";
+            stop
+        else (Không 'n')
+            :Quay lại vòng lặp menu;
+        endif
+    else (Lựa chọn khác)
+        if (Lựa chọn có trong bảng MENU (1..12)?) then (Hợp lệ)
+            partition "Thực thi Handler" {
+                try
+                    :Gọi handler tương ứng(ctx);
+                catch (EmployeeManagementError)
+                    :In "[Lỗi] " + thông báo ngoại lệ nghiệp vụ;
+                catch (NotImplementedError)
+                    :In "[TODO] Chức năng chưa cài đặt";
+                catch (KeyboardInterrupt / EOFError)
+                    :In "[!] Đã hủy thao tác";
+                catch (Exception)
+                    :In "[Lỗi không mong muốn]";
+                end try
+            }
+        else (Không hợp lệ)
+            :In "[!] Lựa chọn không hợp lệ, vui lòng chọn lại.";
+        endif
+    endif
+endwhile
+
+stop
+@enduml

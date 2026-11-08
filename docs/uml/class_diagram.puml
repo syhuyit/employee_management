@@ -1,0 +1,172 @@
+@startuml class_diagram
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 8
+skinparam class {
+    BackgroundColor #FFFFFF
+    ArrowColor #2C3E50
+    BorderColor #2C3E50
+}
+
+package "models" {
+    abstract class Employee <<abstract>> {
+        - __employee_id: str
+        - __full_name: str
+        - __birth_year: int
+        - __department_id: str
+        - __base_salary: float
+        + Employee(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0)
+        + employee_id: str <<property>>
+        + full_name: str <<property>>
+        + birth_year: int <<property>>
+        + department_id: str <<property>>
+        + base_salary: float <<property>>
+        + {abstract} employee_type: str <<property>>
+        + {abstract} calculate_salary(): float
+        + to_dict(): dict
+        + display_info(): void
+        + __str__(): str
+        + __repr__(): str
+    }
+
+    class FullTimeEmployee {
+        + {static} TYPE: str = "FullTime"
+        - __allowance: float
+        + FullTimeEmployee(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0, allowance: float = 0.0)
+        + allowance: float <<property>>
+        + employee_type: str <<property>>
+        + calculate_salary(): float
+        + to_dict(): dict
+        + {static} from_dict(data: dict): FullTimeEmployee
+    }
+
+    class PartTimeEmployee {
+        + {static} TYPE: str = "PartTime"
+        - __hours_worked: float
+        - __hourly_rate: float
+        + PartTimeEmployee(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0, hours_worked: float = 0.0, hourly_rate: float = 0.0)
+        + hours_worked: float <<property>>
+        + hourly_rate: float <<property>>
+        + employee_type: str <<property>>
+        + calculate_salary(): float
+        + to_dict(): dict
+        + {static} from_dict(data: dict): PartTimeEmployee
+    }
+
+    class Department {
+        - __department_id: str
+        - __department_name: str
+        + Department(department_id: str, department_name: str)
+        + department_id: str <<property>>
+        + department_name: str <<property>>
+        + to_dict(): dict
+        + {static} from_dict(data: dict): Department
+        + display_info(): void
+        + __str__(): str
+        + __repr__(): str
+    }
+
+    class Factory <<utility>> {
+        + {static} employee_from_dict(data: dict): Employee
+    }
+}
+
+package "services" {
+    class EmployeeManager {
+        - _department_service: DepartmentService
+        - _employees: dict<str, Employee>
+        + EmployeeManager(department_service: DepartmentService)
+        + add_employee(employee: Employee): void
+        + find_employee(employee_id: str): Employee
+        + get_all(): list<Employee>
+        + set_all(employees: list<Employee>): void
+        + count(): int
+        + update_employee(employee_id: str, **fields): Employee
+        + delete_employee(employee_id: str): Employee
+        + search_by_name(keyword: str): list<Employee>
+        + search_by_department(department_id: str): list<Employee>
+        + sort_employees(criteria: str, descending: bool = False): list<Employee>
+        + total_salary_fund(): float
+    }
+
+    class DepartmentService {
+        - _departments: dict<str, Department>
+        + DepartmentService()
+        + add_department(department: Department): void
+        + get_department(department_id: str): Department
+        + exists(department_id: str): bool
+        + get_all(): list<Department>
+        + set_all(departments: list<Department>): void
+        + update_department(department_id: str, new_name: str): Department
+        + delete_department(department_id: str, employees: list<Employee>): Department
+        + transfer_employee(employee: Employee, new_department_id: str): void
+    }
+
+    class SearchService <<utility>> {
+        + {static} find_by_id(employees: list<Employee>, employee_id: str): Employee
+        + {static} search_by_name(employees: list<Employee>, keyword: str): list<Employee>
+        + {static} search_by_department(employees: list<Employee>, department_id: str): list<Employee>
+    }
+
+    class SortService <<utility>> {
+        + {static} sort_employees(employees: list<Employee>, criteria: str, descending: bool = False): list<Employee>
+    }
+
+    class ReportService <<utility>> {
+        + {static} total_salary_fund(employees: list<Employee>): float
+        + {static} count_by_department(employees: list<Employee>): dict<str, int>
+        + {static} highest_paid(employees: list<Employee>): list<Employee>
+        + {static} average_salary(employees: list<Employee>): float
+        + {static} count_by_type(employees: list<Employee>): dict<str, int>
+    }
+}
+
+package "storage" {
+    class FileStorage {
+        + file_path: str
+        + FileStorage(file_path: str = "data/company_data.json")
+        + exists(): bool
+        + save(employees: list<Employee>, departments: list<Department>): void
+        + load(): tuple<list<Employee>, list<Department>>
+    }
+}
+
+package "ui" {
+    class AppContext <<data>> {
+        + employee_manager: EmployeeManager
+        + department_service: DepartmentService
+        + storage: FileStorage
+    }
+}
+
+' Relations
+Employee <|-- FullTimeEmployee : <<extends>>
+Employee <|-- PartTimeEmployee : <<extends>>
+
+Employee "0..*" --> "1" Department : refers to (department_id)
+
+EmployeeManager o-- "0..*" Employee : aggregation (_employees)
+EmployeeManager --> "1" DepartmentService : uses (_department_service)
+
+EmployeeManager ..> SearchService : delegates
+EmployeeManager ..> SortService : delegates
+EmployeeManager ..> ReportService : delegates
+
+DepartmentService o-- "0..*" Department : aggregation (_departments)
+DepartmentService ..> Employee : checks on delete / transfers
+
+Factory ..> Employee : creates
+Factory ..> FullTimeEmployee : instantiates
+Factory ..> PartTimeEmployee : instantiates
+
+FileStorage ..> Employee : serializes / deserializes
+FileStorage ..> Department : serializes / deserializes
+FileStorage ..> Factory : uses for loading
+
+AppContext --> EmployeeManager : holds
+AppContext --> DepartmentService : holds
+AppContext --> FileStorage : holds
+
+@enduml

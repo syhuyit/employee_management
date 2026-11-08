@@ -76,11 +76,11 @@ employee_management/
 
 ## Thành viên nhóm
 
-| Họ tên | MSSV | Gói | GitHub |
-|--------|------|-----|--------|
-| _(để trống)_ | | | |
-| _(để trống)_ | | | |
-| _(để trống)_ | | | |
-| _(để trống)_ | | | |
-| _(để trống)_ | | | |
-| _(để trống)_ | | | |
+| Họ tên | MSSV | Gói phụ trách | Vai trò |
+|--------|------|:---:|---------|
+| **Nguyễn Sỹ Huy** | `[MSSV_LEAD]` | **Lead & F** | Trưởng nhóm, kiến trúc, review PR, UML & Báo cáo |
+| **Nông Quang Vinh** | `[MSSV_A]` | **Gói A** | Models nhân viên & Bộ kiểm tra dữ liệu |
+| **Mạnh Thảo** | `[MSSV_B]` | **Gói B** | Quản lý phòng ban & Chuyển phòng ban |
+| **Phạm Hải** | `[MSSV_C]` | **Gói C** | CRUD nhân viên (Thêm, Sửa, Xóa, Hiển thị) |
+| **Minh Dương** | `[MSSV_D]` | **Gói D** | Tìm kiếm, Sắp xếp & Hiển thị bảng |
+| **Phạm Quang Đạt** | `[MSSV_E]` | **Gói E** | Thống kê, Lưu trữ JSON & Chức năng mở rộng |
