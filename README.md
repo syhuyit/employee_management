@@ -48,21 +48,21 @@ employee_management/
 
 ## Chức năng menu
 
-| Số | Chức năng |
-|----|-----------|
-| 1  | Thêm nhân viên |
-| 2  | Cập nhật nhân viên |
-| 3  | Xóa nhân viên |
-| 4  | Hiển thị danh sách nhân viên |
-| 5  | Tìm kiếm nhân viên |
-| 6  | Sắp xếp nhân viên |
-| 7  | Quản lý phòng ban |
-| 8  | Chuyển phòng ban |
-| 9  | Thống kê - báo cáo |
-| 10 | Lưu dữ liệu ra file |
-| 11 | Tải dữ liệu từ file |
-| 12 | Chức năng mở rộng |
-| 0  | Thoát chương trình |
+| Số  | Chức năng                    |
+| --- | ---------------------------- |
+| 1   | Thêm nhân viên               |
+| 2   | Cập nhật nhân viên           |
+| 3   | Xóa nhân viên                |
+| 4   | Hiển thị danh sách nhân viên |
+| 5   | Tìm kiếm nhân viên           |
+| 6   | Sắp xếp nhân viên            |
+| 7   | Quản lý phòng ban            |
+| 8   | Chuyển phòng ban             |
+| 9   | Thống kê - báo cáo           |
+| 10  | Lưu dữ liệu ra file          |
+| 11  | Tải dữ liệu từ file          |
+| 12  | Chức năng mở rộng            |
+| 0   | Thoát chương trình           |
 
 ---
 
@@ -76,11 +76,11 @@ employee_management/
 
 ## Thành viên nhóm
 
-| Họ tên | MSSV | Gói phụ trách | Vai trò |
-|--------|------|:---:|---------|
-| **Nguyễn Sỹ Huy** | `[MSSV_LEAD]` | **Lead & F** | Trưởng nhóm, kiến trúc, review PR, UML & Báo cáo |
-| **Nông Quang Vinh** | `[MSSV_A]` | **Gói A** | Models nhân viên & Bộ kiểm tra dữ liệu |
-| **Mạnh Thảo** | `[MSSV_B]` | **Gói B** | Quản lý phòng ban & Chuyển phòng ban |
-| **Phạm Hải** | `[MSSV_C]` | **Gói C** | CRUD nhân viên (Thêm, Sửa, Xóa, Hiển thị) |
-| **Minh Dương** | `[MSSV_D]` | **Gói D** | Tìm kiếm, Sắp xếp & Hiển thị bảng |
-| **Phạm Quang Đạt** | `[MSSV_E]` | **Gói E** | Thống kê, Lưu trữ JSON & Chức năng mở rộng |
+| Họ tên              | MSSV         | Gói phụ trách | Vai trò                                          |
+| ------------------- | ------------ | :-----------: | ------------------------------------------------ |
+| **Nguyễn Sỹ Huy**   | `B23DVCN069` | **Lead & F**  | Trưởng nhóm, kiến trúc, review PR, UML & Báo cáo |
+| **Nông Quang Vinh** | `B23DVCN`    |   **Gói A**   | Models nhân viên & Bộ kiểm tra dữ liệu           |
+| **Mạnh Thảo**       | `B23DVCN`    |   **Gói B**   | Quản lý phòng ban & Chuyển phòng ban             |
+| **Phạm Hải**        | `B23DVCN`    |   **Gói C**   | CRUD nhân viên (Thêm, Sửa, Xóa, Hiển thị)        |
+| **Minh Dương**      | `B23DVCN`    |   **Gói D**   | Tìm kiếm, Sắp xếp & Hiển thị bảng                |
+| **Phạm Quang Đạt**  | `B23DVCN0`   |   **Gói E**   | Thống kê, Lưu trữ JSON & Chức năng mở rộng       |
