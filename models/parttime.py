@@ -1,10 +1,17 @@
-"""Nhân viên bán thời gian."""
+"""Nhân viên bán thời gian.
+"""
+
 from models.employee import Employee
 from utils.validators import validate_hours_worked, validate_non_negative
 
 
 class PartTimeEmployee(Employee):
-    """Nhân viên bán thời gian: lương = số giờ làm * đơn giá giờ."""
+    """Nhân viên bán thời gian: lương = số giờ làm * đơn giá giờ.
+
+    Thuộc tính đặc thù:
+    - hours_worked: số giờ làm, phải trong khoảng 0‑MAX_HOURS_WORKED
+    - hourly_rate: đơn giá giờ, không âm
+    """
 
     TYPE = "PartTime"
 
@@ -21,6 +28,7 @@ class PartTimeEmployee(Employee):
 
     @hours_worked.setter
     def hours_worked(self, value: float) -> None:
+        # Kiểm tra số giờ làm (0‑MAX_HOURS_WORKED)
         self.__hours_worked = validate_hours_worked(value)
 
     @property
@@ -29,6 +37,7 @@ class PartTimeEmployee(Employee):
 
     @hourly_rate.setter
     def hourly_rate(self, value: float) -> None:
+        # Đơn giá giờ không âm
         self.__hourly_rate = validate_non_negative(value, "Đơn giá giờ")
 
     @property
@@ -36,7 +45,13 @@ class PartTimeEmployee(Employee):
         return self.TYPE
 
     def calculate_salary(self) -> float:
+        """Tính lương: số giờ làm * đơn giá giờ."""
         return self.hours_worked * self.hourly_rate
+
+    def __str__(self) -> str:
+        """Hiển thị thông tin đầy đủ cho nhân viên bán thời gian, bao gồm số giờ và đơn giá."""
+        base_str = super().__str__()
+        return f"{base_str} | Giờ: {self.hours_worked:g} | Đơn giá: {self.hourly_rate:,.0f}"
 
     def to_dict(self) -> dict:
         data = super().to_dict()
@@ -46,6 +61,12 @@ class PartTimeEmployee(Employee):
 
     @classmethod
     def from_dict(cls, data: dict) -> "PartTimeEmployee":
-        return cls(data["employee_id"], data["full_name"], data["birth_year"],
-                   data["department_id"], data.get("base_salary", 0.0),
-                   data.get("hours_worked", 0.0), data.get("hourly_rate", 0.0))
+        return cls(
+            data["employee_id"],
+            data["full_name"],
+            data["birth_year"],
+            data["department_id"],
+            data.get("base_salary", 0.0),
+            data.get("hours_worked", 0.0),
+            data.get("hourly_rate", 0.0),
+        )

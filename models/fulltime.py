@@ -28,6 +28,11 @@ class FullTimeEmployee(Employee):
     def calculate_salary(self) -> float:
         return self.base_salary + self.allowance
 
+    def __str__(self) -> str:
+        """Hiển thị thông tin đầy đủ, bao gồm phụ cấp."""
+        base_str = super().__str__()
+        return f"{base_str} | Phụ cấp: {self.allowance:,.0f}"
+
     def to_dict(self) -> dict:
         data = super().to_dict()
         data["allowance"] = self.allowance
