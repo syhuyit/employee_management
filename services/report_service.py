@@ -1,7 +1,6 @@
 """Các hàm thống kê, báo cáo."""
 from models.employee import Employee
 
-
 class ReportService:
     @staticmethod
     def total_salary_fund(employees: list[Employee]) -> float:
