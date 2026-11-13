@@ -9,6 +9,8 @@ Các test này kiểm tra:
 - Kiểm tra các ràng buộc biên đã định nghĩa trong `validators`.
 """
 
+from datetime import date
+
 import pytest
 from utils.exceptions import ValidationError
 from utils.validators import (
@@ -84,6 +86,7 @@ def test_factory_missing_field():
 
 def test_setters_validation_errors():
     emp = FullTimeEmployee("NV007", "Hoang E", 1990, "PB05", 1000000, 500000)
+    current_year = date.today().year
     # employee_id is read‑only
     with pytest.raises(AttributeError):
         emp.employee_id = "NV999"
@@ -92,7 +95,7 @@ def test_setters_validation_errors():
         emp.full_name = "A1"
     # birth_year invalid (too young)
     with pytest.raises(ValidationError):
-        emp.birth_year = 2005
+        emp.birth_year = current_year - 17
     # department_id invalid
     with pytest.raises(ValidationError):
         emp.department_id = "ab"
@@ -102,6 +105,26 @@ def test_setters_validation_errors():
     # allowance negative via subclass setter
     with pytest.raises(ValidationError):
         emp.allowance = -500
+
+
+def test_fulltime_zero_allowance_keeps_base_salary():
+    emp = FullTimeEmployee("NV008", "Hoang F", 1990, "PB05", 1000000, 0)
+
+    assert emp.allowance == 0
+    assert emp.calculate_salary() == 1000000
+
+
+def test_parttime_zero_hours_results_in_zero_salary():
+    emp = PartTimeEmployee("NV009", "Tran G", 1990, "PB05", 0, 0, 200000)
+
+    assert emp.calculate_salary() == 0
+
+
+def test_parttime_hours_setter_rejects_value_above_limit():
+    emp = PartTimeEmployee("NV010", "Le H", 1990, "PB05", 0, 40, 200000)
+
+    with pytest.raises(ValidationError):
+        emp.hours_worked = 301
 
 # ---------------------------------------------------------------------------
 # Additional boundary tests using validators directly (already covered in test_validators)
@@ -126,7 +149,7 @@ def test_full_name_boundary():
         validate_full_name("A")
 
 def test_birth_year_boundary():
-    current = 2026
+    current = date.today().year
     # exactly 18 years old
     assert validate_birth_year(current - 18) == current - 18
     # exactly 65 years old
