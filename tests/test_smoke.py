@@ -1,4 +1,4 @@
-"""Kiểm thử smoke cơ bản chạy: python -m unittest discover -s tests -v"""
+"""Kiểm thử smoke cơ bản – chạy: python -m unittest discover -s tests -v"""
 import unittest
 
 from models.department import Department
