@@ -76,11 +76,11 @@ employee_management/
 
 ## Thành viên nhóm
 
-| Họ tên              | MSSV         | Gói phụ trách | Vai trò                                          |
-| ------------------- | ------------ | :-----------: | ------------------------------------------------ |
-| **Nguyễn Sỹ Huy**   | `B23DVCN069` | **Lead & F**  | Trưởng nhóm, kiến trúc, review PR, UML & Báo cáo |
-| **Nông Quang Vinh** | `B23DVCN`    |   **Gói A**   | Models nhân viên & Bộ kiểm tra dữ liệu           |
-| **Mạnh Thảo**       | `B23DVCN`    |   **Gói B**   | Quản lý phòng ban & Chuyển phòng ban             |
-| **Phạm Hải**        | `B23DVCN`    |   **Gói C**   | CRUD nhân viên (Thêm, Sửa, Xóa, Hiển thị)        |
-| **Minh Dương**      | `B23DVCN`    |   **Gói D**   | Tìm kiếm, Sắp xếp & Hiển thị bảng                |
-| **Phạm Quang Đạt**  | `B23DVCN0`   |   **Gói E**   | Thống kê, Lưu trữ JSON & Chức năng mở rộng       |
+| Họ tên               | MSSV         | Gói phụ trách | Vai trò                                          |
+| -------------------- | ------------ | :-----------: | ------------------------------------------------ |
+| **Nguyễn Sỹ Huy**    | `B23DVCN069` | **Lead & F**  | Trưởng nhóm, kiến trúc, review PR, UML & Báo cáo |
+| **Nông Quang Vinh**  | `B23DVCN177` |   **Gói A**   | Models nhân viên & Bộ kiểm tra dữ liệu           |
+| **Nguyễn Mạnh Thảo** | `B23DVCN149` |   **Gói B**   | Quản lý phòng ban & Chuyển phòng ban             |
+| **Phạm Thanh Hải**   | `B23DVCN084` |   **Gói C**   | CRUD nhân viên (Thêm, Sửa, Xóa, Hiển thị)        |
+| **Phùng Minh Dương** | `B23DVCN044` |   **Gói D**   | Tìm kiếm, Sắp xếp & Hiển thị bảng                |
+| **Phạm Quang Đạt**   | `B23DVCN188` |   **Gói E**   | Thống kê, Lưu trữ JSON & Chức năng mở rộng       |
