@@ -29,7 +29,7 @@ class SearchService:
 
         # Hàm chuẩn hóa chuỗi: chuyển chữ thường và loại bỏ dấu tiếng Việt
         def normalize_text(text: str) -> str:
-            text = text.casefold()
+            text = text.casefold().replace("đ", "d")
             text = unicodedata.normalize("NFD", text)
 
             # Loại bỏ các ký tự dấu

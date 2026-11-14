@@ -3,7 +3,7 @@
 import unicodedata
 
 from models.employee import Employee
-from exceptions import ValidationError
+from utils.exceptions import ValidationError
 
 
 SORT_CRITERIA = ("salary", "name", "id", "birth_year")
@@ -31,7 +31,7 @@ class SortService:
 
         # Chuẩn hóa chuỗi tiếng Việt để sắp xếp
         def normalize_text(text: str) -> str:
-            text = text.casefold()
+            text = text.casefold().replace("đ", "d")
             text = unicodedata.normalize("NFD", text)
 
             # Loại bỏ dấu tiếng Việt
@@ -44,7 +44,7 @@ class SortService:
 
         # Xây dựng khóa sắp xếp theo tiêu chí
         if criteria == "salary":
-            key_function = lambda emp: emp.base_salary
+            key_function = lambda emp: emp.calculate_salary()
 
         elif criteria == "name":
             def key_function(emp):

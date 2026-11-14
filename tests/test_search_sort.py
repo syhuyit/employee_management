@@ -84,6 +84,15 @@ class TestSearchService(unittest.TestCase):
         result = SearchService.search_by_name(employees, "nguyen van anh")
         self.assertEqual(len(result), 1)
 
+    def test_search_by_name_d_stroke(self):
+        """Tìm kiếm họ tên chứa ký tự đ/Đ bằng từ khóa d/D."""
+        employees = [
+            FakeEmployee("NV06", "Đặng Quốc Khánh", 2001, "PB02", 5000000)
+        ]
+        result = SearchService.search_by_name(employees, "dang")
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].employee_id, "NV06")
+
     def test_search_by_department_success(self):
         """Lọc nhân viên theo mã phòng ban."""
         result = SearchService.search_by_department(
@@ -135,6 +144,14 @@ class TestSortService(unittest.TestCase):
         )
         salaries = [employee.base_salary for employee in result]
         self.assertEqual(salaries, sorted(salaries, reverse=True))
+
+    def test_sort_by_calculated_salary(self):
+        """Sắp xếp theo lương thực tế calculate_salary."""
+        emp1 = FakeEmployee("NV01", "A", 2000, "PB01", 0, salary=5000000)
+        emp2 = FakeEmployee("NV02", "B", 1995, "PB01", 3000000, salary=4000000)
+        res = SortService.sort_employees([emp1, emp2], "salary", True)
+        self.assertEqual(res[0].employee_id, "NV01")
+        self.assertEqual(res[1].employee_id, "NV02")
 
     def test_sort_by_name(self):
         """Sắp xếp theo họ tên."""
