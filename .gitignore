@@ -8,3 +8,6 @@ venv/
 data/*.json
 data/*.csv
 !data/.gitkeep
+Nhom_1_Bao_cao.docx
+generate_report.py
+Nhom_1_Bao_cao_original.docx

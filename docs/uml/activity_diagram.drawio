@@ -1,0 +1,175 @@
+<mxfile host="app.diagrams.net" modified="2026-11-08T03:25:00.000Z" agent="Antigravity AI" version="21.0.0" type="device">
+  <diagram id="Activity_Diagram" name="Activity Diagram - Main Menu &amp; Flow">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Start Node -->
+        <mxCell id="node_start" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="500" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Init Action -->
+        <mxCell id="act_init" value="Khởi động main.py &amp;amp;&lt;br&gt;Khởi tạo AppContext" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="435" y="100" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Load Data -->
+        <mxCell id="act_load" value="Tải dữ liệu từ FileStorage.load()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="425" y="180" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Seed Check -->
+        <mxCell id="dec_seed" value="Có --seed &amp;amp;&amp;amp; trống?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="440" y="260" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Seed Action -->
+        <mxCell id="act_seed" value="seed_sample_data(ctx)&lt;br&gt;(3 PB + 6 NV mẫu)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="640" y="270" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Menu Display -->
+        <mxCell id="act_menu" value="Hiển thị Menu chính&lt;br&gt;(12 chức năng + mục 0)&lt;br&gt;&amp;amp; Nhận lựa chọn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="435" y="380" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Choice == 0? -->
+        <mxCell id="dec_exit" value="Lựa chọn == '0'?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="445" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Confirm Exit? -->
+        <mxCell id="dec_confirm" value="Xác nhận thoát&lt;br&gt;confirm() == 'y'?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="670" y="490" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- End Node -->
+        <mxCell id="node_end" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="870" y="510" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Valid Menu Item? -->
+        <mxCell id="dec_valid" value="Lựa chọn hợp lệ&lt;br&gt;trong MENU 1..12?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="430" y="610" width="170" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Invalid Item Msg -->
+        <mxCell id="act_invalid" value="In báo lỗi lựa chọn không hợp lệ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="190" y="625" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Execute Handler -->
+        <mxCell id="act_exec" value="Thực thi Handler tương ứng(ctx)&lt;br&gt;(Có khối try - except bảo vệ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="415" y="740" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="node_start" target="act_init">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_init" target="act_load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_load" target="dec_seed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_seed" target="act_seed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="Đúng" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_seed" target="act_menu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="Sai" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_seed" target="act_menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="715" y="350" />
+              <mxPoint x="515" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_menu" target="dec_exit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_exit" target="dec_confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l8" value="Đúng" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_confirm" target="node_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l9" value="'y' Thoát" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_confirm" target="act_menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l10" value="'n' Hủy" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_exit" target="dec_valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l11" value="Sai" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_valid" target="act_invalid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l12" value="Sai" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_invalid" target="act_menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="dec_valid" target="act_exec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l14" value="Đúng" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="act_exec" target="act_menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="770" />
+              <mxPoint x="140" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l15" value="Xong / Xử lý ngoại lệ" style="edgeLabel;html=1;align=center;verticalAlign=middle;" vertex="1" connectable="0" parent="e15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

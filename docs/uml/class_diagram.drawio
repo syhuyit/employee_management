@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net" agent="Class diagram - Employee Management" version="21.0.0" type="device">
+  <diagram id="UML_Class_Diagram" name="UML Class Diagram - Employee Management">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c_ac" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;«dataclass»&lt;br&gt;AppContext&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ employee_manager: EmployeeManager&lt;br&gt;+ department_service: DepartmentService&lt;br&gt;+ storage: FileStorage" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#f8cecc;strokeColor=#b85450;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="690" y="40" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_em" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;EmployeeManager&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;# _department_service: DepartmentService&lt;br&gt;# _employees: dict[str, Employee]&lt;hr&gt;+ __init__(department_service: DepartmentService)&lt;br&gt;+ add_employee(employee: Employee): None&lt;br&gt;+ find_employee(employee_id: str): Employee&lt;br&gt;+ get_all(): list[Employee]&lt;br&gt;+ set_all(employees: list[Employee]): None&lt;br&gt;+ count(): int&lt;br&gt;+ update_employee(employee_id: str, **fields): Employee&lt;br&gt;+ delete_employee(employee_id: str): Employee&lt;br&gt;+ search_by_name(keyword: str): list[Employee]&lt;br&gt;+ search_by_department(department_id: str): list[Employee]&lt;br&gt;+ sort_employees(criteria: str, descending: bool = False): list[Employee]&lt;br&gt;+ total_salary_fund(): float" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#e1d5e7;strokeColor=#9673a6;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="120" y="250" width="420" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="c_ds" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;DepartmentService&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;# _departments: dict[str, Department]&lt;hr&gt;+ __init__()&lt;br&gt;+ add_department(department: Department): None&lt;br&gt;+ get_department(department_id: str): Department&lt;br&gt;+ exists(department_id: str): bool&lt;br&gt;+ get_all(): list[Department]&lt;br&gt;+ set_all(departments: list[Department]): None&lt;br&gt;+ update_department(department_id: str, new_name: str): Department&lt;br&gt;+ delete_department(department_id: str, employees: list[Employee]): Department&lt;br&gt;+ transfer_employee(employee: Employee, new_department_id: str): None" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#ffe6cc;strokeColor=#d79b00;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="650" y="250" width="440" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="c_fs" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;FileStorage&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ file_path: str&lt;hr&gt;+ __init__(file_path: str = &quot;data/company_data.json&quot;)&lt;br&gt;+ exists(): bool&lt;br&gt;+ save(employees: list[Employee], departments: list[Department]): None&lt;br&gt;+ load(): tuple[list[Employee], list[Department]]" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#fff2cc;strokeColor=#d6b656;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="250" width="420" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c_emp" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;«abstract»&lt;br&gt;Employee&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;- __employee_id: str&lt;br&gt;- __full_name: str&lt;br&gt;- __birth_year: int&lt;br&gt;- __department_id: str&lt;br&gt;- __base_salary: float&lt;hr&gt;+ __init__(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0)&lt;br&gt;+ employee_id: str «property»&lt;br&gt;+ full_name: str «property»&lt;br&gt;+ birth_year: int «property»&lt;br&gt;+ department_id: str «property»&lt;br&gt;+ base_salary: float «property»&lt;br&gt;+ employee_type: str «abstract property»&lt;br&gt;+ calculate_salary(): float «abstract»&lt;br&gt;+ to_dict(): dict&lt;br&gt;+ display_info(): None&lt;br&gt;+ __str__(): str&lt;br&gt;+ __repr__(): str" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#dae8fc;strokeColor=#6c8ebf;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="650" y="630" width="440" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="c_dept" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;Department&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;- __department_id: str&lt;br&gt;- __department_name: str&lt;hr&gt;+ __init__(department_id: str, department_name: str)&lt;br&gt;+ department_id: str «property»&lt;br&gt;+ department_name: str «property»&lt;br&gt;+ to_dict(): dict&lt;br&gt;+ from_dict(data: dict): Department «classmethod»&lt;br&gt;+ display_info(): None&lt;br&gt;+ __str__(): str&lt;br&gt;+ __repr__(): str" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#ffe6cc;strokeColor=#d79b00;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="630" width="420" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="c_search" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;«utility»&lt;br&gt;SearchService&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ find_by_id(employees: list[Employee], employee_id: str): Employee | None&lt;br&gt;+ search_by_name(employees: list[Employee], keyword: str): list[Employee]&lt;br&gt;+ search_by_department(employees: list[Employee], department_id: str): list[Employee]" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="120" y="630" width="420" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="c_sort" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;«utility»&lt;br&gt;SortService&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ sort_employees(employees: list[Employee], criteria: str, descending: bool = False): list[Employee]" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="120" y="840" width="420" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c_report" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;«utility»&lt;br&gt;ReportService&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ total_salary_fund(employees: list[Employee]): float&lt;br&gt;+ count_by_department(employees: list[Employee]): dict[str, int]&lt;br&gt;+ highest_paid(employees: list[Employee]): list[Employee]&lt;br&gt;+ average_salary(employees: list[Employee]): float&lt;br&gt;+ count_by_type(employees: list[Employee]): dict[str, int]" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="120" y="990" width="420" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c_ft" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;FullTimeEmployee&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ TYPE: str = &quot;FullTime&quot;&lt;br&gt;- __allowance: float&lt;hr&gt;+ __init__(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0, allowance: float = 0.0)&lt;br&gt;+ allowance: float «property»&lt;br&gt;+ employee_type: str «property»&lt;br&gt;+ calculate_salary(): float&lt;br&gt;+ to_dict(): dict&lt;br&gt;+ from_dict(data: dict): FullTimeEmployee «classmethod»" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#d5e8d4;strokeColor=#82b366;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="600" y="1110" width="400" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="c_pt" value="&lt;div align=&quot;center&quot;&gt;&lt;b&gt;PartTimeEmployee&lt;/b&gt;&lt;/div&gt;&lt;hr&gt;+ TYPE: str = &quot;PartTime&quot;&lt;br&gt;- __hours_worked: float&lt;br&gt;- __hourly_rate: float&lt;hr&gt;+ __init__(employee_id: str, full_name: str, birth_year: int, department_id: str, base_salary: float = 0.0, hours_worked: float = 0.0, hourly_rate: float = 0.0)&lt;br&gt;+ hours_worked: float «property»&lt;br&gt;+ hourly_rate: float «property»&lt;br&gt;+ employee_type: str «property»&lt;br&gt;+ calculate_salary(): float&lt;br&gt;+ to_dict(): dict&lt;br&gt;+ from_dict(data: dict): PartTimeEmployee «classmethod»" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;rounded=1;arcSize=4;fillColor=#d5e8d4;strokeColor=#82b366;spacingLeft=10;spacingTop=6;spacingRight=10;spacingBottom=6;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1110" width="400" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="r_ac_em" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.0000;exitY=0.5000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=0.0000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1" source="c_ac" target="c_em">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="330.0" y="100.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_ac_ds" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5000;exitY=1.0000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=0.0000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1" source="c_ac" target="c_ds">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="r_ac_fs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.0000;exitY=0.5000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=0.0000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1" source="c_ac" target="c_fs">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1470.0" y="100.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_em_ds" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.0000;exitY=0.1800;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.2088;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1" source="c_em" target="c_ds">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="r_em_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.0000;exitY=0.8200;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.1200;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=diamond;startFill=0;startSize=16;endArrow=none;strokeWidth=1.5;" edge="1" parent="1" source="c_em" target="c_emp">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="595.0" y="487.8" /><mxPoint x="595.0" y="674.4" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_ds_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5000;exitY=1.0000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=0.0000;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1" source="c_ds" target="c_emp">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="r_ds_dept" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.0000;exitY=0.8200;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.1200;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=diamond;startFill=0;startSize=16;endArrow=none;strokeWidth=1.5;" edge="1" parent="1" source="c_ds" target="c_dept">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1175.0" y="455.0" /><mxPoint x="1175.0" y="657.6" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_emp_dept" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.0000;exitY=0.3730;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.6000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1" source="c_emp" target="c_dept">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="r_fs_dept" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5000;exitY=1.0000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=0.0000;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1" source="c_fs" target="c_dept">
+          <mxGeometry relative="1" as="geometry"></mxGeometry>
+        </mxCell>
+        <mxCell id="r_ft_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5000;exitY=0.0000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=1.0000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;endSize=14;strokeWidth=2;" edge="1" parent="1" source="c_ft" target="c_emp">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="800.0" y="1045.0" /><mxPoint x="870.0" y="1045.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_pt_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5000;exitY=0.0000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5000;entryY=1.0000;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;endSize=14;strokeWidth=2;" edge="1" parent="1" source="c_pt" target="c_emp">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1240.0" y="1045.0" /><mxPoint x="870.0" y="1045.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_em_report" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.0000;exitY=0.1500;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.5000;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1" source="c_em" target="c_report">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="50.0" y="293.5" /><mxPoint x="50.0" y="1065.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_em_sort" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.0000;exitY=0.3000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.5000;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1" source="c_em" target="c_sort">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="70.0" y="337.0" /><mxPoint x="70.0" y="895.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r_em_search" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.0000;exitY=0.4500;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.0000;entryY=0.5000;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1" source="c_em" target="c_search">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="90.0" y="380.5" /><mxPoint x="90.0" y="715.0" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="m_emp_dept_e" value="0..*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1094" y="748" width="36" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_emp_dept_d" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1242" y="748" width="16" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="t_emp_dept" value="thuộc về" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="1152" y="770" width="56" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_em_emp" value="0..*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="548" y="654" width="36" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_ds_dept" value="0..*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1179" y="638" width="36" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_em_ds" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="634" y="282" width="14" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_ac_em" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="336" y="226" width="16" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_ac_ds" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="876" y="226" width="16" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m_ac_fs" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=0;strokeColor=none;fillColor=none;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1476" y="226" width="16" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_box" value="&lt;b&gt;Chú thích&lt;/b&gt;" style="rounded=1;arcSize=4;html=1;whiteSpace=wrap;align=center;verticalAlign=top;fillColor=none;strokeColor=#999999;dashed=1;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1200" width="420" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_e0" style="html=1;rounded=0;endArrow=block;endFill=0;endSize=14;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="144" y="1252" as="sourcePoint" /><mxPoint x="244" y="1252" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="legend_t0" value="Kế thừa (generalization)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1242" width="270" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_e1" style="html=1;rounded=0;endArrow=open;endFill=0;endSize=10;strokeWidth=1.5;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="144" y="1286" as="sourcePoint" /><mxPoint x="244" y="1286" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="legend_t1" value="Liên kết (association)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1276" width="270" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_e2" style="html=1;rounded=0;startArrow=diamond;startFill=0;startSize=16;endArrow=none;strokeWidth=1.5;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="144" y="1320" as="sourcePoint" /><mxPoint x="244" y="1320" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="legend_t2" value="Kết hợp (aggregation)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1310" width="270" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_e3" style="html=1;rounded=0;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=10;strokeWidth=1.3;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="144" y="1354" as="sourcePoint" /><mxPoint x="244" y="1354" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="legend_t3" value="Phụ thuộc (dependency, «use»)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1344" width="270" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
