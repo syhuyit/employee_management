@@ -12,7 +12,7 @@ CSV_PATH = "data/employees.csv"
 
 def handle_save(ctx: AppContext) -> None:
     """Lưu dữ liệu ra file JSON."""
-    employees = ctx.employee_service.get_all()
+    employees = ctx.employee_manager.get_all()
     departments = ctx.department_service.get_all()
     try:
         ctx.storage.save(employees, departments)
@@ -45,7 +45,7 @@ def handle_load(ctx: AppContext) -> None:
 
     # Phong ban truoc, nhan vien sau
     ctx.department_service.set_all(departments)
-    ctx.employee_service.set_all(employees)
+    ctx.employee_manager.set_all(employees)
     print(f"Đã tải {len(departments)} phòng ban và {len(employees)} nhân viên.")
 
 
@@ -76,7 +76,7 @@ def _export_csv(employees, path: str) -> None:
 
 def handle_extension(ctx: AppContext) -> None:
     """Chức năng mở rộng: xuất danh sách nhân viên ra file CSV."""
-    employees = ctx.employee_service.get_all()
+    employees = ctx.employee_manager.get_all()
     if not employees:
         print("Chưa có nhân viên nào để xuất.")
         return

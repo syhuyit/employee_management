@@ -5,7 +5,8 @@ import tempfile
 import unittest
 
 from models.department import Department
-from models.employee import FullTimeEmployee, PartTimeEmployee  # xem luu y so 1
+from models.fulltime import FullTimeEmployee
+from models.parttime import PartTimeEmployee
 from storage.file_storage import FileStorage
 from utils.exceptions import StorageError  # xem luu y so 2
 

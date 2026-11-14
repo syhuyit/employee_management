@@ -10,7 +10,7 @@ def _money(value: float) -> str:
 
 def handle_report(ctx: AppContext) -> None:
     """Hiển thị thống kê: tổng quỹ lương, số NV theo phòng ban, NV lương cao nhất."""
-    employees = ctx.employee_service.get_all()
+    employees = ctx.employee_manager.get_all()
     departments = ctx.department_service.get_all()
 
     print("\n===== THỐNG KÊ - BÁO CÁO =====")
