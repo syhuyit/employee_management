@@ -12,18 +12,33 @@ _ID_PATTERN = re.compile(r"^[A-Z0-9]{3,10}$")
 
 
 def validate_not_empty(value, field_name: str) -> str:
-    """Chuỗi không được rỗng. Trả về chuỗi đã strip."""
+    """Kiểm tra một chuỗi không rỗng.
+    - Nếu `value` là `None` hoặc chuỗi chỉ chứa khoảng trắng → ném `ValidationError`.
+    - Trả về chuỗi đã `strip()` (loại bỏ khoảng trắng đầu và cuối).
+    """
     if value is None or not str(value).strip():
         raise ValidationError(f"{field_name} không được để trống.")
     return str(value).strip()
 
 
+
 def validate_identifier(value, field_name: str = "Mã") -> str:
-    """Mã gồm chữ/số, dài 3-10 ký tự, tự in hoa."""
+    """Xác thực mã định danh.
+
+    - Không cho phép chuỗi rỗng hoặc chứa khoảng trắng.
+    - Chỉ chấp nhận các ký tự chữ in hoa A‑Z và chữ số 0‑9.
+    - Độ dài phải nằm trong khoảng 3‑10 ký tự (đúng biên 3 và 10 được chấp nhận).
+    - Trả về giá trị đã chuẩn hoá thành chữ in hoa.
+    """
+    # Loại bỏ khoảng trắng đầu/cuối, sau đó chuẩn hoá thành chữ in hoa
     text = validate_not_empty(value, field_name).upper()
+    # Kiểm tra định dạng theo pattern đã định nghĩa ở đầu file
     if not _ID_PATTERN.match(text):
-        raise ValidationError(f"{field_name} chỉ gồm chữ/số, dài 3-10 ký tự (ví dụ: NV001).")
+        raise ValidationError(
+            f"{field_name} chỉ gồm chữ/số, dài 3 đến 10 ký tự, không có dấu cách hay ký tự '-' (ví dụ: NV001)."
+        )
     return text
+
 
 
 def validate_employee_id(value) -> str:
