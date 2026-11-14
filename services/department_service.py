@@ -1,7 +1,7 @@
 """Quản lý phòng ban và nghiệp vụ chuyển phòng ban."""
 from models.department import Department
 from models.employee import Employee
-from utils.exceptions import DuplicateIdError, NotFoundError
+from utils.exceptions import BusinessRuleError, DuplicateIdError, NotFoundError
 from utils.validators import validate_department_id
 
 
@@ -36,15 +36,29 @@ class DepartmentService:
         """Thay toàn bộ danh sách (dùng khi load file)."""
         self._departments = {d.department_id: d for d in departments}
 
-    # ----- [STUB] -----
+    # ----- [GÓI B] -----
     def update_department(self, department_id: str, new_name: str) -> Department:
         """Đổi tên phòng ban. Trả về phòng ban đã cập nhật."""
-        raise NotImplementedError("TODO(Gói B): update_department")
+        department = self.get_department(department_id)
+        department.department_name = new_name
+        return department
 
     def delete_department(self, department_id: str, employees: list[Employee]) -> Department:
         """Xóa phòng ban. Còn nhân viên -> BusinessRuleError (R10). Trả về phòng ban đã xóa."""
-        raise NotImplementedError("TODO(Gói B): delete_department")
+        department = self.get_department(department_id)
+        if any(employee.department_id == department.department_id for employee in employees):
+            raise BusinessRuleError(
+                f"Không thể xóa phòng ban {department.department_id} vì vẫn còn nhân viên."
+            )
+        del self._departments[department.department_id]
+        return department
 
     def transfer_employee(self, employee: Employee, new_department_id: str) -> None:
         """Chuyển nhân viên sang phòng ban mới (R11, R12)."""
-        raise NotImplementedError("TODO(Gói B): transfer_employee")
+        new_department = self.get_department(new_department_id)
+        if employee.department_id == new_department.department_id:
+            raise BusinessRuleError(
+                f"Nhân viên {employee.employee_id} hiện đã thuộc phòng ban "
+                f"{new_department.department_id}."
+            )
+        employee.department_id = new_department.department_id
