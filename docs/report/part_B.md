@@ -10,7 +10,7 @@
 | Thực thể phòng ban | `models/department.py` | Lưu mã, tên phòng ban; kiểm tra tên; chuyển đổi dữ liệu sang/từ dict |
 | Dịch vụ phòng ban | `services/department_service.py` | Thêm, tìm, đổi tên, xóa phòng ban và chuyển nhân viên |
 | Giao diện console | `ui/handlers/department_handler.py` | Menu quản lý phòng ban và luồng chuyển nhân viên |
-| Kiểm thử | `tests/test_department.py` | Chưa có file kiểm thử riêng cho nghiệp vụ Gói B |
+| Kiểm thử | `tests/test_department.py` | 14 unit test cho service và 7 test cho handler/menu |
 
 ## 2. Thực thể Department
 
@@ -32,28 +32,34 @@
 - **Menu 8 – Chuyển phòng ban:** hiển thị nhân viên và phòng ban, nhận mã nhân viên cùng mã phòng ban đích, sau đó báo kết quả hoặc lỗi nghiệp vụ.
 - `main.py` đã khởi tạo `DepartmentService`, nạp danh sách phòng ban trước nhân viên; `ui/menu.py` đã ánh xạ lựa chọn 7 và 8 tới handler tương ứng.
 
-## 5. Rà soát mã nguồn
+## 5. Rà soát theo yêu cầu B3, B5, B6, B7
 
-Các mã mục **B3, B5, B6, B7** chưa được định nghĩa trong tài liệu hiện có của repository. Phần rà soát dưới đây bao quát các nghiệp vụ Gói B đang có trong mã nguồn; cần đối chiếu với bảng phân công nếu các mã trên có ý nghĩa riêng.
+### B3 – Báo số nhân viên khi chặn xóa
 
-### 5.1. Đổi tên phòng ban
+`delete_department()` đếm số nhân viên có `department_id` trùng phòng ban cần xóa. Khi số lượng lớn hơn 0, dịch vụ ném `BusinessRuleError` kèm mã phòng ban và số nhân viên, ví dụ `Phòng ban PB01 còn 2 nhân viên, không thể xóa.` Danh sách phòng ban không bị thay đổi. Nếu phòng ban trống, thao tác xóa vẫn hoạt động như trước.
 
-`update_department()` tìm phòng ban bằng `get_department()`, nên mã sai định dạng hoặc không tồn tại được báo lỗi. Tên mới được kiểm tra qua setter của `Department`. Phòng ban đã cập nhật được trả về để giao diện hiển thị.
+### B5 – Thứ tự menu và nhập lại khi sai
 
-### 5.2. Xóa phòng ban
+Menu quản lý phòng ban hiển thị theo thứ tự: **1. Thêm**, **2. Sửa tên**, **3. Xóa**, **4. Danh sách**, **0. Quay lại**. `input_choice()` tiếp tục hỏi khi lựa chọn menu không hợp lệ. Các trường mã phòng ban, tên phòng ban và mã nhân viên được kiểm tra trong vòng lặp riêng; lỗi định dạng, mã trùng hoặc không tìm thấy sẽ báo lỗi rồi hỏi lại ngay trường đó.
 
-`delete_department()` kiểm tra mã phòng ban trước, sau đó so khớp mã phòng ban của nhân viên. Nếu còn nhân viên thì ném `BusinessRuleError`; nếu không thì xóa và trả về phòng ban. Handler truyền danh sách nhân viên hiện tại từ `EmployeeManager`.
+### B6 – Xác nhận và hiển thị rõ luồng chuyển phòng
 
-### 5.3. Chuyển nhân viên
+Sau khi tìm nhân viên, handler hiển thị phòng ban nguồn rồi liệt kê phòng ban đích. Mã đích được kiểm tra trước khi hỏi xác nhận. Nếu người dùng từ chối, dịch vụ không được gọi và phòng của nhân viên giữ nguyên. Nếu xác nhận thành công, thông báo nêu rõ mã nguồn và đích, ví dụ `Đã chuyển NV001 từ PB01 sang PB02.` Mã sai định dạng, không tồn tại hoặc trùng phòng hiện tại đều được báo và hỏi lại.
 
-`transfer_employee()` dùng `get_department()` để xác nhận phòng đích tồn tại, từ chối trường hợp phòng đích trùng phòng hiện tại, rồi cập nhật thuộc tính `department_id`. Handler tìm nhân viên qua `EmployeeManager.find_employee()` và hiển thị thông tin phòng ban trước khi nhận mã đích.
+### B7 – Unit test nghiệp vụ
 
-### 5.4. Giao diện quản lý
+`tests/test_department.py` có 14 test trực tiếp cho `DepartmentService`, bao gồm thêm trùng mã, tìm và sửa phòng ban, kiểm tra tên, xóa phòng trống/không tồn tại/còn nhân viên với số lượng chính xác, và các trường hợp chuyển phòng hợp lệ hoặc bị từ chối. Bảy test handler/menu kiểm tra thứ tự menu, nhập lại dữ liệu sai, xác nhận hủy không làm đổi phòng, xác nhận chuyển thành công và nhập lại phòng đích sai.
 
-Handler có các luồng xem, thêm, đổi tên và xóa phòng ban; lỗi nghiệp vụ được bắt và hiển thị để menu không bị dừng. Luồng chuyển phòng ban xử lý trường hợp danh sách nhân viên rỗng và hiển thị lỗi khi mã nhân viên hoặc phòng đích không hợp lệ.
+## 6. Kết quả kiểm thử
 
-## 6. Kiểm thử và điểm cần bổ sung
+```text
+python -m unittest tests.test_department -v
+Ran 21 tests — OK
 
-`tests/test_smoke.py` hiện kiểm tra khứ hồi dữ liệu của `Department`, nhưng chưa kiểm tra các nghiệp vụ trong `DepartmentService`. Repository chưa có `tests/test_department.py`; nên bổ sung ca cho mã phòng ban trùng, đổi tên hợp lệ/không hợp lệ, xóa phòng ban đang có nhân viên, xóa phòng trống, chuyển tới phòng không tồn tại, chuyển về phòng hiện tại và chuyển thành công.
+python -m unittest discover -s tests -v
+Ran 106 tests — OK
+```
 
-Kiểm thử tự động chưa được chạy trong lần rà soát này.
+## 7. Báo cáo B8
+
+Tài liệu này tổng hợp thực thể, nghiệp vụ, mã lỗi, menu, cách xử lý nhập sai và xác nhận chuyển phòng; phần trên cũng ghi lại các ca kiểm thử cùng kết quả chạy suite.

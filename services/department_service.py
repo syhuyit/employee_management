@@ -46,9 +46,14 @@ class DepartmentService:
     def delete_department(self, department_id: str, employees: list[Employee]) -> Department:
         """Xóa phòng ban. Còn nhân viên -> BusinessRuleError (R10). Trả về phòng ban đã xóa."""
         department = self.get_department(department_id)
-        if any(employee.department_id == department.department_id for employee in employees):
+        employee_count = sum(
+            employee.department_id == department.department_id
+            for employee in employees
+        )
+        if employee_count:
             raise BusinessRuleError(
-                f"Không thể xóa phòng ban {department.department_id} vì vẫn còn nhân viên."
+                f"Phòng ban {department.department_id} còn {employee_count} nhân viên, "
+                "không thể xóa."
             )
         del self._departments[department.department_id]
         return department
