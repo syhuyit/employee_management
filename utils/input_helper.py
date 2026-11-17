@@ -11,9 +11,17 @@ def input_string(prompt: str, required: bool = True) -> str:
 
 def input_int(prompt: str) -> int:
     while True:
+        raw = input(prompt).strip()
         try:
-            return int(input(prompt).strip())
+            return int(raw)
         except ValueError:
+            if "." in raw or "," in raw:
+                try:
+                    float(raw.replace(",", "."))
+                    print("[!] Vui lòng nhập một số nguyên (không nhập số thập phân).")
+                    continue
+                except ValueError:
+                    pass
             print("[!] Vui lòng nhập một số nguyên.")
 
 

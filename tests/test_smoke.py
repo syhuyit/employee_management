@@ -59,7 +59,10 @@ class TestSmoke(unittest.TestCase):
 
     def test_duplicate_employee(self):
         """Thêm cùng mã hai lần -> DuplicateIdError."""
-        manager = EmployeeManager(DepartmentService())
+        department_service = DepartmentService()
+        # Manager luôn yêu cầu phòng ban tồn tại, kể cả khi danh mục ban đầu đang rỗng.
+        department_service.add_department(Department("PB01", "Kỹ thuật"))
+        manager = EmployeeManager(department_service)
         emp = FullTimeEmployee("NV001", "Nguyễn Văn An", 1990, "PB01", 10_000_000, 0)
         manager.add_employee(emp)
         with self.assertRaises(DuplicateIdError):
