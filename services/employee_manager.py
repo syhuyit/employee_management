@@ -21,7 +21,8 @@ class EmployeeManager:
         Kiểm tra phòng ban tồn tại -> NotFoundError (R8)."""
         if employee.employee_id in self._employees:
             raise DuplicateIdError(f"Mã nhân viên {employee.employee_id} đã tồn tại.")
-        if self._department_service.get_all() and not self._department_service.exists(employee.department_id):
+        # Danh sách phòng ban rỗng không có nghĩa là mã phòng ban bất kỳ đều hợp lệ.
+        if not self._department_service.exists(employee.department_id):
             raise NotFoundError(f"Phòng ban {employee.department_id} không tồn tại.")
         self._employees[employee.employee_id] = employee
 

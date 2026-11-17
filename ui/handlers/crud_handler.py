@@ -45,26 +45,26 @@ def handle_add(ctx: AppContext) -> None:
     if choice == "0":
         return
 
-    # Validator kiểm tra mã nhân viên chưa tồn tại
+    # Chỉ kiểm tra định dạng ở đây; mã trùng là lỗi nghiệp vụ cần báo rồi quay lại menu.
     def _validate_new_id(raw: str) -> str:
-        emp_id = validate_employee_id(raw)
-        try:
-            ctx.employee_manager.find_employee(emp_id)
-            raise ValidationError(f"Mã nhân viên '{emp_id}' đã tồn tại (R7).")
-        except NotFoundError:
-            pass
-        return emp_id
+        return validate_employee_id(raw)
 
-    # Validator kiểm tra phòng ban phải tồn tại
+    # Tách định dạng khỏi tồn tại để mã đúng dạng nhưng không có sẽ quay lại menu.
     def _validate_dept(raw: str) -> str:
-        dept_id = validate_department_id(raw)
-        if not ctx.department_service.exists(dept_id):
-            raise ValidationError(f"Phòng ban '{dept_id}' không tồn tại trong hệ thống (R8).")
-        return dept_id
+        return validate_department_id(raw)
 
     # Nhập các trường chung, sai trường nào nhập lại trường đó
     print("\nNhập thông tin nhân viên:")
     emp_id = _ask("  - Mã nhân viên (ví dụ NV001): ", _validate_new_id)
+    try:
+        ctx.employee_manager.find_employee(emp_id)
+    except NotFoundError:
+        pass
+    else:
+        # Mã trùng không phải lỗi định dạng; báo lỗi và kết thúc thao tác thêm.
+        print(f"[!] Mã nhân viên '{emp_id}' đã tồn tại (R7).")
+        return
+
     full_name = _ask("  - Họ tên: ", validate_full_name)
     birth_year = _ask("  - Năm sinh: ", _validate_year_input)
 
@@ -74,6 +74,10 @@ def handle_add(ctx: AppContext) -> None:
         dept_hint = ", ".join(f"{d.department_id} ({d.department_name})" for d in depts)
         print(f"    (Phòng ban hiện có: {dept_hint})")
     department_id = _ask("  - Mã phòng ban: ", _validate_dept)
+    if not ctx.department_service.exists(department_id):
+        # Phòng ban không tồn tại là lỗi nghiệp vụ; báo lỗi và kết thúc thao tác thêm.
+        print(f"[!] Phòng ban '{department_id}' không tồn tại trong hệ thống (R8).")
+        return
 
     # Nhập thông tin đặc thù theo loại
     if choice == "1":

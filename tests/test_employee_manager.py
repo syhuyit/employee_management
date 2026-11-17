@@ -51,6 +51,17 @@ class TestEmployeeManager(unittest.TestCase):
         with self.assertRaises(NotFoundError):
             self.manager.add_employee(emp_bad_dept)
 
+    def test_add_employee_rejects_missing_department_when_no_departments_exist(self):
+        empty_department_service = DepartmentService()
+        manager = EmployeeManager(empty_department_service)
+        employee = FullTimeEmployee(
+            "NV003", "Hoàng Văn D", 1993, "PB99", 10_000_000, 1_000_000
+        )
+
+        with self.assertRaises(NotFoundError):
+            manager.add_employee(employee)
+        self.assertEqual(manager.count(), 0)
+
     # 2. Tìm kiếm nhân viên
     def test_find_employee_case_insensitive(self):
         self.manager.add_employee(self.ft)
@@ -62,24 +73,36 @@ class TestEmployeeManager(unittest.TestCase):
             self.manager.find_employee("NV999")
 
     # 3. Cập nhật nhân viên
-    def test_update_employee_fields_success(self):
+    def test_update_employee_full_name(self):
         self.manager.add_employee(self.ft)
-        updated = self.manager.update_employee(
-            "NV001", full_name="Nguyễn Văn Bình", birth_year=1992, base_salary=18_000_000, allowance=3_000_000
-        )
+        updated = self.manager.update_employee("NV001", full_name="Nguyễn Văn Bình")
         self.assertEqual(updated.full_name, "Nguyễn Văn Bình")
+
+    def test_update_employee_birth_year(self):
+        self.manager.add_employee(self.ft)
+        updated = self.manager.update_employee("NV001", birth_year=1992)
         self.assertEqual(updated.birth_year, 1992)
+
+    def test_update_employee_base_salary(self):
+        self.manager.add_employee(self.ft)
+        updated = self.manager.update_employee("NV001", base_salary=18_000_000)
         self.assertEqual(updated.base_salary, 18_000_000)
+
+    def test_update_fulltime_allowance(self):
+        self.manager.add_employee(self.ft)
+        updated = self.manager.update_employee("NV001", allowance=3_000_000)
         self.assertEqual(updated.allowance, 3_000_000)
 
-    def test_update_parttime_specific_fields(self):
+    def test_update_parttime_hours_worked(self):
         self.manager.add_employee(self.pt)
-        updated = self.manager.update_employee(
-            "NV002", hours_worked=100, hourly_rate=60_000
-        )
+        updated = self.manager.update_employee("NV002", hours_worked=100)
         self.assertEqual(updated.hours_worked, 100)
+
+    def test_update_parttime_hourly_rate(self):
+        self.manager.add_employee(self.pt)
+        updated = self.manager.update_employee("NV002", hourly_rate=60_000)
         self.assertEqual(updated.hourly_rate, 60_000)
-        self.assertEqual(updated.calculate_salary(), 6_000_000)
+        self.assertEqual(updated.calculate_salary(), 4_800_000)
 
     def test_update_employee_department_success(self):
         self.manager.add_employee(self.ft)

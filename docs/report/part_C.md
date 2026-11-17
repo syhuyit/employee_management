@@ -28,9 +28,9 @@ Trong thiết kế hướng đối tượng (OOP) và kiến trúc phần mềm,
 - **Chọn loại nhân viên:** Người dùng chọn thêm nhân viên Toàn thời gian (`FullTime`) hoặc Bán thời gian (`PartTime`).
 - **Kiểm tra tức thì (On-the-fly Validation):**
   - Nhập từng trường thông tin (`Mã NV`, `Họ tên`, `Năm sinh`, `Mã phòng ban`...).
-  - Áp dụng hàm phụ `_ask(prompt, validator)`: Nếu người dùng nhập sai định dạng ở trường nào (ví dụ năm sinh chữ cái, mã phòng ban không tồn tại, lương âm), hệ thống in thông báo lỗi cụ thể và **yêu cầu nhập lại ngay tại trường đó** mà không bắt nhập lại từ đầu.
-  - Kiểm tra tính duy nhất: Kiểm tra mã nhân viên chưa tồn tại trong `EmployeeManager` (`R7`).
-  - Kiểm tra phòng ban: Kiểm tra phòng ban tồn tại qua `DepartmentService.exists(...)` (`R8`).
+  - Áp dụng hàm phụ `_ask(prompt, validator)`: Nếu sai định dạng (ví dụ mã sai định dạng, năm sinh không hợp lệ hoặc lương âm), hệ thống in lỗi và **yêu cầu nhập lại ngay tại trường đó**.
+  - Nếu mã nhân viên đã tồn tại (`R7`) hoặc mã phòng ban hợp lệ về định dạng nhưng không tồn tại (`R8`), hệ thống báo lỗi và quay lại menu thêm nhân viên.
+  - `EmployeeManager.add_employee` luôn kiểm tra phòng ban bằng `DepartmentService.exists(...)`; danh mục phòng ban rỗng cũng không cho phép thêm nhân viên tham chiếu tới phòng không tồn tại.
 - **Khởi tạo và lưu:** Tạo đối tượng `FullTimeEmployee` hoặc `PartTimeEmployee`, sau đó gọi `ctx.employee_manager.add_employee(new_emp)` và in thông báo thành công.
 
 ### 2.2. Luồng Cập nhật nhân viên (`handle_update` & `update_employee`)
@@ -60,11 +60,13 @@ Trong thiết kế hướng đối tượng (OOP) và kiến trúc phần mềm,
 | Mã TC | Chức năng kiểm thử | Dữ liệu đầu vào / Thao tác | Kết quả mong đợi |
 |---|---|---|---|
 | **TC-C01** | Thêm nhân viên trùng mã | Thêm NV `NV001`, sau đó thêm tiếp một NV khác cũng mang mã `NV001` | Ném `DuplicateIdError`, không cho phép ghi đè mã đã có |
-| **TC-C02** | Thêm NV vào phòng ban không tồn tại | Tạo NV với mã phòng ban `PB99` (chưa có trong `DepartmentService`) | Ném `NotFoundError`, yêu cầu nhập lại mã phòng ban |
+| **TC-C02** | Thêm NV vào phòng ban không tồn tại | Nhập mã phòng ban `PB99` (đúng định dạng nhưng chưa có trong `DepartmentService`) | Báo lỗi `NotFoundError` theo quy tắc R8 và quay lại menu thêm nhân viên |
 | **TC-C03** | Cập nhật trường bị cấm | Gọi `update_employee("NV001", type="PartTime")` hoặc trường không hợp lệ | Ném `ValidationError`, bảo đảm quy tắc bất biến R14 |
 | **TC-C04** | Cập nhật "Tất cả hoặc không gì" | Cập nhật `full_name="Tên Mới"` (hợp lệ) và `base_salary=-5000` (lương âm, lỗi) | Ném `ValidationError`, đồng thời `full_name` được khôi phục về tên cũ |
 | **TC-C05** | Xóa nhân viên không tồn tại | Gọi `delete_employee("NV999")` khi mã không có trong hệ thống | Ném `NotFoundError`, danh sách không bị thay đổi |
 | **TC-C06** | Tính đóng gói danh sách `get_all` | Lấy danh sách qua `get_all()`, sau đó gọi `clear()` trên danh sách nhận được | Danh sách nội bộ của `EmployeeManager` vẫn giữ nguyên toàn bộ nhân viên |
+| **TC-C07** | Thêm khi danh mục phòng ban rỗng | Tạo `EmployeeManager` với `DepartmentService` rỗng rồi thêm nhân viên | Ném `NotFoundError`; không thêm nhân viên vào danh sách |
+| **TC-C08** | Kiểm tra luồng nhập khi thêm | Nhập mã sai định dạng rồi nhập đúng; thử mã NV trùng hoặc mã PB không tồn tại | Mã sai định dạng được hỏi lại tại trường; mã trùng/PB không tồn tại báo lỗi rồi kết thúc thao tác thêm |
 
 ---
 
@@ -73,6 +75,7 @@ Trong thiết kế hướng đối tượng (OOP) và kiến trúc phần mềm,
 Chạy toàn bộ unit test của gói C:
 ```bash
 python -m unittest tests.test_employee_manager -v
+python -m unittest tests.test_crud_handler -v
 ```
 
 Chạy kiểm thử tích hợp toàn bộ hệ thống:
